@@ -3,6 +3,8 @@ package com.example.trening
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
@@ -11,6 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SilkaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,13 +52,16 @@ class SilkaActivity : AppCompatActivity() {
                 roundsText.text = "Runda: " + roundInt
                 temRestInt = restInt
                 time.setText("Pozostały czas to: " + temRestInt)
-                if (roundInt == 0){
-                    //Toast.makeText(applicationContext, "Koniec treningu", Toast.LENGTH_SHORT).show()
+                if(roundInt == 0) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(applicationContext, "Koniec treningu", Toast.LENGTH_LONG).show()
+                    }
                     delay(1000)
                     val backIntent: Intent = Intent(applicationContext, MainActivity::class.java)
                     startActivity(backIntent)
                 }
             }
+
         }
     }
 }

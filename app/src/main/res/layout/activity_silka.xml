@@ -15,6 +15,7 @@
         android:ems="10"
         android:inputType="text"
         android:text="6"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,6 +25,7 @@
         android:layout_height="40dp"
         android:layout_marginStart="50dp"
         android:text="Rundy"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/rounds"
         app:layout_constraintTop_toTopOf="@+id/rounds" />
 
@@ -35,6 +37,7 @@
         android:ems="10"
         android:inputType="text"
         android:text="60"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/rounds"
         app:layout_constraintTop_toBottomOf="@+id/rounds" />
 
@@ -44,6 +47,7 @@
         android:layout_height="40dp"
         android:layout_marginStart="50dp"
         android:text="Przerwy"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/rest"
         app:layout_constraintTop_toTopOf="@+id/rest" />
 
@@ -61,9 +65,13 @@
         android:id="@+id/roundsText"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="48dp"
         android:text="Runda: 6"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/start" />
 
