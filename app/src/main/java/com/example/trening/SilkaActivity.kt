@@ -1,9 +1,12 @@
 package com.example.trening
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -12,6 +15,7 @@ import kotlinx.coroutines.launch
 class SilkaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContentView(R.layout.activity_silka)
 
         val rounds: TextView = findViewById(R.id.rounds)
@@ -23,25 +27,35 @@ class SilkaActivity : AppCompatActivity() {
 
         var roundInt: Int = 6
         var restInt: Int = 60
+        var temRestInt: Int = restInt
 
         start.setOnClickListener {
             roundInt =  rounds.text.toString().toInt()
             restInt = rest.text.toString().toInt()
+            temRestInt = restInt
             time.setText("Pozostały czas to: " + restInt)
+            roundsText.text = "Runda: " + roundInt
         }
 
         buttonRest.setOnClickListener {
             val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default)
             coroutineScope.launch {
-                while (restInt >= 0) {
-                    time.setText("Pozostały czas to: " + restInt)
+                while (temRestInt >= 0) {
+                    time.setText("Pozostały czas to: " + temRestInt)
                     delay(1000)
-                    restInt--
+                    temRestInt--
                 }
                 roundInt--
                 roundsText.text = "Runda: " + roundInt
+                temRestInt = restInt
+                time.setText("Pozostały czas to: " + temRestInt)
+                if (roundInt == 0){
+                    //Toast.makeText(applicationContext, "Koniec treningu", Toast.LENGTH_SHORT).show()
+                    delay(1000)
+                    val backIntent: Intent = Intent(applicationContext, MainActivity::class.java)
+                    startActivity(backIntent)
+                }
             }
         }
-
     }
 }
