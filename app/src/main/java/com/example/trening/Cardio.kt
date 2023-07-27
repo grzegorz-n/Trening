@@ -1,5 +1,7 @@
 package com.example.trening
 
+import android.content.Intent
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
@@ -14,10 +16,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class Cardio : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContentView(R.layout.activity_cardio_training)
+
+        var mediaPlayer: MediaPlayer = MediaPlayer.create(this, R.raw.beep)
 
         // tutaj definiuje okienka
         var rounds: TextView = findViewById(R.id.textView3)
@@ -77,6 +82,10 @@ class Cardio : AppCompatActivity() {
                     delay(1000)
                     tempWorki--
 
+                    if (tempWorki in 1..3) {
+                        mediaPlayer.release()
+                    }
+
                     if (tempWorki == 0) {
                         ifWork = false
                         tempWorki = worki
@@ -90,6 +99,9 @@ class Cardio : AppCompatActivity() {
                     delay(1000)
                     tempResty--
 
+                    if (tempResty in 1..3) {
+                        mediaPlayer.release()
+                    }
                     if (tempResty == 0) {
                         ifWork = true
                         tempCycles--
@@ -100,6 +112,14 @@ class Cardio : AppCompatActivity() {
                     }
                 }
             }
+
+            withContext(Dispatchers.Main) {
+                Toast.makeText(applicationContext, "Koniec treningu", Toast.LENGTH_LONG).show()
+            }
+            delay(1000)
+            val backIntent: Intent = Intent(applicationContext, MainActivity::class.java)
+            startActivity(backIntent)
+
         }
     }
 }
