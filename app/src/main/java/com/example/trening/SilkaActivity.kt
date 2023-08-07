@@ -1,6 +1,7 @@
 package com.example.trening
 
 import android.content.Intent
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -11,16 +12,20 @@ import android.widget.TextView
 import android.widget.Toast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class SilkaActivity : AppCompatActivity() {
+
+    lateinit var mediaPlayer: MediaPlayer
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContentView(R.layout.activity_silka)
 
+        mediaPlayer = MediaPlayer.create(this, R.raw.beep)
         val rounds: TextView = findViewById(R.id.rounds)
         val rest: TextView = findViewById(R.id.rest)
         val start: Button = findViewById(R.id.start)
@@ -47,6 +52,16 @@ class SilkaActivity : AppCompatActivity() {
                     time.setText("Pozostały czas to: " + temRestInt)
                     delay(1000)
                     temRestInt--
+                    if (temRestInt <= 3) {
+                        withContext(Dispatchers.Main) {
+                            async(Dispatchers.IO) {
+                                mediaPlayer.start()
+                                delay(500)
+                                mediaPlayer.pause()
+                                mediaPlayer.seekTo(0)
+                            }
+                        }
+                    }
                 }
                 roundInt--
                 roundsText.text = "Runda: " + roundInt
